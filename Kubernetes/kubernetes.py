@@ -160,7 +160,25 @@ def setup_images():
             return
 
     
+def upload_images():
+    # Configura el cliente de Docker
+    client = docker.from_env()
 
+    # Obtiene la lista de todas las imágenes
+    images = client.images.list()
+
+    # Crea un diccionario para almacenar los nombres y los IDs de las imágenes
+    image_info_dict = {}
+
+    # Itera sobre las imágenes y guarda el nombre y el Image ID en el diccionario
+    for image in images:
+        image_info = image.attrs
+        image_name = image_info['RepoTags'][0] if image_info['RepoTags'] else ''
+        image_id = image_info['Id'].split(':')[-1]
+        image_info_dict[image_name] = image_id
+
+    # Imprime el diccionario con la información
+    print(image_info_dict)
 
 ################ PROGRAM ################
 
@@ -194,18 +212,13 @@ else:
 # setup_images()
 
 # Configura el cliente de Docker
-client = docker.from_env()
 
-# Obtiene la lista de todas las imágenes
-images = client.images.list()
 
-# Itera sobre las imágenes y muestra el nombre y el Image ID
-for image in images:
-    image_info = image.attrs
-    image_name = image_info['RepoTags'][0] if image_info['RepoTags'] else ''
-    image_id = image_info['Id'].split(':')[-1]
-    print(f"Nombre de la imagen: {image_name}")
-    print(f"Image ID (solo parte derecha): {image_id}")
+
+
+upload_images()
+
+
 
 #gcloud container clusters create creativa2 \
     # --num-nodes=5 \
