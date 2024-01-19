@@ -279,17 +279,7 @@ else:
 
 # Ejecuta el comando
 resultado = subprocess.run(
-    [
-        "gcloud",
-        "container",
-        "clusters",
-        "create",
-        "creativa2",
-        "--num-nodes=5",
-        "--no-enable-autoscaling",
-        "--zone=europe-west1-d",
-        "--project=clear-column-411518",
-    ],
+    "gcloud container clusters create creativa2 --num-nodes=5 --no-enable-autoscaling --zone europe-west1-d --project clear-column-411518",
     shell=True,
     check=True,
 )
