@@ -1,7 +1,7 @@
 import subprocess
 import os
 import docker
-from config import username, password
+
 import subprocess
 import time
 
@@ -26,8 +26,10 @@ warning = """
 | ¡Por favor, sigue estas indicaciones para evitar problemas en la         |
 | ejecución del programa!                                                  |
 |==========================================================================|
-
 """
+
+print(warning)
+from config import username, password
 
 def run_command(command):
     """Ejecuta un comando en la terminal y devuelve su salida y un booleano indicando el éxito."""
@@ -259,7 +261,7 @@ def apply_kubectl():
 
 ################ PROGRAM ################
 
-print(warning)
+
 
 if not is_docker_installed():
     print("\nDocker no está instalado. Ejecutando el proceso de configuración...")
