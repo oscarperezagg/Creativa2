@@ -237,8 +237,7 @@ def apply_kubectl():
     subprocess.run(["kubectl", "get", "services","productpage"])
 
 
-        
-
+    
 
 ################ PROGRAM ################
 
