@@ -279,7 +279,7 @@ else:
     print("\nKubernetes ya está instalado. No es necesario volver a configurarlo.")
 
 
-create = input("\n Quiere crear el contenedor (y/n):")
+create = input("\nQuiere crear el contenedor (y/n):")
 if create.lower() == "y":
     create = True
 else:
