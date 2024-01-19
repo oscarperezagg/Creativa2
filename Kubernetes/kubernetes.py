@@ -1,5 +1,6 @@
 import subprocess
 import os
+import docker
 from config import username, password
 import subprocess
 import time
@@ -161,6 +162,15 @@ def setup_images():
 
 
 def upload_images():
+    
+    """Instala Docker usando pip3."""
+    command = "pip3 install docker"
+    stdout, stderr, success = run_command(command)
+
+    if success:
+        print("\nDocker se ha instalado correctamente.\n")
+    else:
+        print(f"\nError al instalar Docker: {stderr}\n")
     # Configura el cliente de Docker
     client = docker.from_env()
 
@@ -246,7 +256,7 @@ else:
 # --zone europe-west1-d \
 # --project clear-column-411518
 
-print("\n Accediendo al cluster que hemos creado: \n")
+print("\nAccediendo al cluster que hemos creado: \n")
 subprocess.run("gcloud container clusters get-credentials creativa2 --zone europe-west1-d --project clear-column-411518", shell=True, check=True)
 
 
