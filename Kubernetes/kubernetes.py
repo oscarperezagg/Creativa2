@@ -224,8 +224,6 @@ except subprocess.CalledProcessError as e:
 
 setup_images()
 
-Configura el cliente de Docker
-
 
 upload_images()
 
