@@ -1,6 +1,5 @@
 import subprocess
 import os
-import docker
 from config import username, password
 import subprocess
 import time
@@ -247,25 +246,25 @@ else:
 # --zone europe-west1-d \
 # --project clear-column-411518
 
+print("\n Accediendo al cluster que hemos creado: \n")
+subprocess.run("gcloud container clusters get-credentials creativa2 --zone europe-west1-d --project clear-column-411518", shell=True, check=True)
 
-# gcloud container clusters get-credentials creativa2 --zone europe-west1-d --project clear-column-411518
 
+try:
+    # Eliminar todos los contenedores detenidos
+    subprocess.run("docker container prune -f", shell=True, check=True)
 
-# try:
-#     # Eliminar todos los contenedores detenidos
-#     subprocess.run("docker container prune -f", shell=True, check=True)
+    # Eliminar todas las imágenes no utilizadas
+    subprocess.run("docker image prune -a -f", shell=True, check=True)
 
-#     # Eliminar todas las imágenes no utilizadas
-#     subprocess.run("docker image prune -a -f", shell=True, check=True)
+    print("La limpieza de Docker se completó correctamente.")
 
-#     print("La limpieza de Docker se completó correctamente.")
+except subprocess.CalledProcessError as e:
+    print(f"Ocurrió un error: {e}")
 
-# except subprocess.CalledProcessError as e:
-#     print(f"Ocurrió un error: {e}")
+setup_images()
 
-# setup_images()
-
-# upload_images()
+upload_images()
 
 try:
     print("\nEliminando servicios existentes\n")
