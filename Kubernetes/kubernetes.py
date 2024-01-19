@@ -21,13 +21,13 @@ def run_command(command):
 
 def is_docker_installed():
     """Verifica si Docker está instalado."""
-    output, error, success  = run_command("docker --version")
+    output, error, success = run_command("docker --version")
     return success
 
 
 def is_kubernetes_installed():
     """Verifica si Kubernetes está instalado."""
-    output, error, success  = run_command("kubectl version --client")
+    output, error, success = run_command("kubectl version --client")
     return success
 
 
@@ -55,7 +55,7 @@ def setup_docker():
     )
 
     print("\nVerificando la versión de Docker...")
-    version, error, success  = run_command("docker --version")
+    version, error, success = run_command("docker --version")
     print(version)
 
 
@@ -74,7 +74,9 @@ def setup_kubernetes():
         "echo 'deb [arch=amd64 signed-by=/etc/apt/keyrings/kubernetes.gpg] http://apt.kubernetes.io/ kubernetes-xenial main' | sudo tee -a /etc/apt/sources.list"
     )
 
-    print("\n|   Actualizando paquetes después de añadir el repositorio de Kubernetes...")
+    print(
+        "\n|   Actualizando paquetes después de añadir el repositorio de Kubernetes..."
+    )
     run_command("sudo apt update")
 
     print("\n|   Instalando kubeadm, kubelet y kubectl...")
@@ -84,7 +86,7 @@ def setup_kubernetes():
     run_command("sudo apt-mark hold kubeadm kubelet kubectl")
 
     print("\nVerificando la versión de kubeadm...")
-    version, error, success  = run_command("kubeadm version")
+    version, error, success = run_command("kubeadm version")
     print(version)
 
 
@@ -96,9 +98,7 @@ def setup_images():
 
     # Clonar el repositorio de GitHub
     print("\nClonando el repositorio de GitHub...")
-    output, error, success = run_command(
-        "sudo rm -rf practica_creativa2"
-    )
+    output, error, success = run_command("sudo rm -rf practica_creativa2")
     if not success:
         print("\n[ERROR]  Algo fue mal! Error: \n" + (error or "Desconocido"))
         return
@@ -125,8 +125,7 @@ def setup_images():
     if not success:
         print("\n[ERROR]  Algo fue mal! Error: \n" + (error or "Desconocido"))
         return
-    
-    
+
     # Cambiar al directorio específico
     try:
         print("\nCambiando al directorio del proyecto...")
@@ -134,14 +133,14 @@ def setup_images():
     except Exception as e:
         print(f"Error al cambiar de directorio: {e}")
         return
-    
-    gradle_image = "sudo docker build -t reviews .",
+
+    gradle_image = ("sudo docker build -t reviews .",)
     print(f"\nConstruyendo imagen Docker con el comando: {gradle_image}")
     output, error, success = run_command(gradle_image)
     if not success:
         print("\n[ERROR]  Algo fue mal! Error: \n" + (error or "Desconocido"))
         return
-    
+
     # Volver al directorio original
     os.chdir(original_directory)
 
@@ -159,7 +158,7 @@ def setup_images():
             print("\n[ERROR]  Algo fue mal! Error: \n" + (error or "Desconocido"))
             return
 
-    
+
 def upload_images():
     # Configura el cliente de Docker
     client = docker.from_env()
@@ -173,16 +172,34 @@ def upload_images():
     # Itera sobre las imágenes y guarda el nombre y el Image ID en el diccionario
     for image in images:
         image_info = image.attrs
-        image_name = image_info['RepoTags'][0] if image_info['RepoTags'] else ''
-        image_id = image_info['Id'].split(':')[-1]
+        image_name = image_info["RepoTags"][0] if image_info["RepoTags"] else ""
+        image_id = image_info["Id"].split(":")[-1]
         image_info_dict[image_name] = image_id
 
     # Imprime el diccionario con la información
     # Itera sobre la lista y ejecuta el comando docker tag para cada imagen
     for new_name, image_id in image_info_dict.items():
-        print(f"\Creando tag para la image: {new_name}")
+        print(f"\nCreando tag para la image: {new_name}")
         subprocess.run(["docker", "tag", image_id, new_name])
-    
+
+    # Configura el cliente de Docker
+    client = docker.from_env()
+
+    # Tu nombre de usuario y contraseña de Docker Hub
+    username = "dockeroperezarruti"
+    password = "O28466371o#"
+
+    # Inicia sesión en Docker Hub
+    client.login(username=username, password=password)
+
+    # Nombre de la imagen que deseas subir
+
+    for name in image_info_dict:
+        
+        image_name = f"dockeroscarperez/{name}"
+        # Realiza el push de la imagen al registro de contenedores (en este caso, Docker Hub)
+        client.images.push(image_name)
+
 
 ################ PROGRAM ################
 
@@ -197,8 +214,6 @@ if not is_kubernetes_installed():
     setup_kubernetes()
 else:
     print("\nKubernetes ya está instalado. No es necesario volver a configurarlo.\n")
-
-
 
 
 # try:
@@ -218,17 +233,14 @@ else:
 # Configura el cliente de Docker
 
 
-
-
 upload_images()
 
 
-
-#gcloud container clusters create creativa2 \
-    # --num-nodes=5 \
-    # --no-enable-autoscaling \
-    # --zone europe-west1-d \
-    # --project clear-column-411518
+# gcloud container clusters create creativa2 \
+# --num-nodes=5 \
+# --no-enable-autoscaling \
+# --zone europe-west1-d \
+# --project clear-column-411518
 
 
 # gcloud container clusters get-credentials creativa2 --zone europe-west1-d --project clear-column-411518
