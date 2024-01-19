@@ -90,6 +90,7 @@ def setup_images():
     print("\nConstruyendo el proyecto con Docker y Gradle...\n")
     _, success = run_command("docker run --rm -u root -v \"$(pwd)\":/home/gradle/project -w /home/gradle/project gradle:4.8.1 gradle clean build")
     if not success:
+        print("\n Algo fué mal!")
         return
 
     # Volver al directorio original
@@ -107,6 +108,7 @@ def setup_images():
         print(f"\nConstruyendo imagen Docker con el comando: {command}\n")
         _, success = run_command(command)
         if not success:
+            print("\n Algo fué mal!")
             return
 
 ################ PROGRAM ################
@@ -126,15 +128,4 @@ else:
 
 setup_images()
 
-# git clone https://github.com/CDPS-ETSIT/practica_creativa2.git
-
-#  sudo docker build -t g39/product-page -f dockerfiles/productpage .
-
-#  sudo docker build -t g39/details -f dockerfiles/details .
-
-#  sudo docker build -t g39/product-page -f dockerfiles/productpage .
-
-#  sudo docker build -t g39/product-page -f dockerfiles/productpage .
-
-# sudo docker build -t g39/product-page -f practica_creativa2/bookinfo/src/reviews/Dockerfile . 
 
