@@ -21,7 +21,7 @@ warning = """
 | 3. Crea un archivo secret.py que incluya las variables 'username' y      |
 |    'password' con las credenciales adecuadas para que el programa pueda  |
 |    funcionar correctamente. Asegúrate de mantener este archivo seguro y  |
-|    no compartir las credenciales.                                        |
+|    no compartir las credenciales. Debe crearse en la carpeta confing     |
 |                                                                          |
 | ¡Por favor, sigue estas indicaciones para evitar problemas en la         |
 | ejecución del programa!                                                  |
