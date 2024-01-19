@@ -32,6 +32,7 @@ print("\033c")
 print(warning)
 from config import username, password
 
+
 def run_command(command):
     """Ejecuta un comando en la terminal y devuelve su salida y un booleano indicando el éxito."""
     try:
@@ -263,7 +264,6 @@ def apply_kubectl():
 ################ PROGRAM ################
 
 
-
 if not is_docker_installed():
     print("\nDocker no está instalado. Ejecutando el proceso de configuración...")
     setup_docker()
@@ -276,22 +276,20 @@ if not is_kubernetes_installed():
 else:
     print("\nKubernetes ya está instalado. No es necesario volver a configurarlo.")
 
-# Define el comando como una lista de cadenas
-comando = [
-    "gcloud",
-    "container",
-    "clusters",
-    "create",
-    "creativa2",
-    "--num-nodes=5",
-    "--no-enable-autoscaling",
-    "--zone=europe-west1-d",
-    "--project=clear-column-411518",
-]
 
 # Ejecuta el comando
 resultado = subprocess.run(
-    comando,
+    [
+        "gcloud",
+        "container",
+        "clusters",
+        "create",
+        "creativa2",
+        "--num-nodes=5",
+        "--no-enable-autoscaling",
+        "--zone=europe-west1-d",
+        "--project=clear-column-411518",
+    ],
     shell=True,
     check=True,
 )
