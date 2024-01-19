@@ -279,12 +279,17 @@ else:
     print("\nKubernetes ya está instalado. No es necesario volver a configurarlo.")
 
 
-# Ejecuta el comando
-resultado = subprocess.run(
-    "gcloud container clusters create creativa2 --num-nodes=5 --no-enable-autoscaling --zone europe-west1-d --project clear-column-411518",
-    shell=True,
-    check=True,
-)
+create = input("\n Quiere crear el contenedor (y/n):")
+if create.lower() == "y":
+    create = True
+else:
+    create = False
+if create:
+    resultado = subprocess.run(
+        "gcloud container clusters create creativa2 --num-nodes=5 --no-enable-autoscaling --zone europe-west1-d --project clear-column-411518",
+        shell=True,
+        check=True,
+    )
 
 print("\nAccediendo al cluster que hemos creado: \n")
 subprocess.run(
