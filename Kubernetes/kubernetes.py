@@ -215,13 +215,13 @@ def apply_kubectl():
    
 
     # Wait for one second
-    print("\n Esperando 10 segundos a que todo se despliegue correctamente")
+    print("\nEsperando 10 segundos a que todo se despliegue correctamente\n")
     time.sleep(10)
-    print("\n Services:")
+    print("\nServices:\n")
     subprocess.run(["kubectl", "get", "services"])
-    print("\n Deployments:")
+    print("\nDeployments:\n")
     subprocess.run(["kubectl", "get", "deployments"])
-    print("\n Pods:")
+    print("\nPods:\n")
     subprocess.run(["kubectl", "get", "pods"])
 
         
