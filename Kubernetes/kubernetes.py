@@ -186,7 +186,7 @@ def upload_images():
     client = docker.from_env()
 
     # Tu nombre de usuario y contraseña de Docker Hub
-    username = "dockeroperezarruti"
+    username = "dockeroscarperez"
     password = "O28466371o#"
 
     # Inicia sesión en Docker Hub
