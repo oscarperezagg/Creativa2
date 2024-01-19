@@ -183,16 +183,16 @@ def upload_images():
     # Itera sobre la lista y ejecuta el comando docker tag para cada imagen
     for new_name, image_id in image_info_dict.items():
         image_name = f"dockeroscarperez/{new_name}"
-        print(f"\nEjecutando:", "docker", "tag", image_id, new_name)
+        print(f"\nEjecutando:", "docker", "tag", image_id, image_name)
         
-        subprocess.run(["docker", "tag", image_id, image_name])
+        #subprocess.run(["docker", "tag", image_id, new_name])
         
        
         # Push the Docker image to Docker Hub
-        print(f"\nSubiendo la imagen: {new_name}")
+        print(f"\nSubiendo la imagen: {image_name}")
 
         push_command = f"docker push {new_name}"
-        subprocess.run(push_command, shell=True, check=True)
+        #subprocess.run(push_command, shell=True, check=True)
 
 
 ################ PROGRAM ################
