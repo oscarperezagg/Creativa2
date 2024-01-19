@@ -6,6 +6,29 @@ import subprocess
 import time
 
 
+warning = """
+|==========================================================================|
+| WARNING: Para que el programa funcione correctamente:                    |
+|--------------------------------------------------------------------------|
+| 1. Asegúrate de que el ID del proyecto sea válido. En este caso, se ha   |
+|    utilizado el ID del alumno. Si necesitas modificarlo, puedes buscar   |
+|    la línea 275 en tu código donde se encuentra la referencia a          |
+|    'gcloud container clusters' y asegurarte de que el proyecto sea el    |
+|    correcto, en este caso 'clear-column-411518'.                         |
+|                                                                          |
+| 2. Debes contar con una cuenta en Docker Hub.                            |
+|                                                                          |
+| 3. Crea un archivo secret.py que incluya las variables 'username' y      |
+|    'password' con las credenciales adecuadas para que el programa pueda  |
+|    funcionar correctamente. Asegúrate de mantener este archivo seguro y  |
+|    no compartir las credenciales.                                        |
+|                                                                          |
+| ¡Por favor, sigue estas indicaciones para evitar problemas en la         |
+| ejecución del programa!                                                  |
+|==========================================================================|
+
+"""
+
 def run_command(command):
     """Ejecuta un comando en la terminal y devuelve su salida y un booleano indicando el éxito."""
     try:
@@ -235,6 +258,8 @@ def apply_kubectl():
 
 
 ################ PROGRAM ################
+
+print(warning)
 
 if not is_docker_installed():
     print("\nDocker no está instalado. Ejecutando el proceso de configuración...")
