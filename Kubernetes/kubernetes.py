@@ -1,7 +1,7 @@
 import subprocess
 import os
 import docker
-from .secret import *
+from .secret import username,password 
 import subprocess
 
 
