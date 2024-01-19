@@ -97,6 +97,12 @@ def setup_images():
     # Clonar el repositorio de GitHub
     print("\nClonando el repositorio de GitHub...")
     output, error, success = run_command(
+        "rm -rf practica_creativa2"
+    )
+    if not success:
+        print("\n -> Algo fue mal! Error: \n" + (error or "Desconocido"))
+        return
+    output, error, success = run_command(
         "git clone https://github.com/CDPS-ETSIT/practica_creativa2.git"
     )
     if not success:
