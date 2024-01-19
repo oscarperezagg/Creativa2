@@ -197,6 +197,7 @@ def upload_images():
     for name in image_info_dict:
         
         image_name = f"dockeroscarperez/{name}"
+        print(image_name)
         # Realiza el push de la imagen al registro de contenedores (en este caso, Docker Hub)
         client.images.push(image_name)
 
