@@ -125,7 +125,23 @@ def setup_images():
     if not success:
         print("\n[ERROR]  Algo fue mal! Error: \n" + (error or "Desconocido"))
         return
-
+    
+    
+    # Cambiar al directorio específico
+    try:
+        print("\nCambiando al directorio del proyecto...")
+        os.chdir("reviews-wlpcfg")
+    except Exception as e:
+        print(f"Error al cambiar de directorio: {e}")
+        return
+    
+    gradle_image = "sudo docker build -t g39/reviews .",
+    print(f"\nConstruyendo imagen Docker con el comando: {gradle_image}")
+    output, error, success = run_command(gradle_image)
+    if not success:
+        print("\n[ERROR]  Algo fue mal! Error: \n" + (error or "Desconocido"))
+        return
+    
     # Volver al directorio original
     os.chdir(original_directory)
 
@@ -134,7 +150,6 @@ def setup_images():
         "sudo docker build -t g39/productpage -f dockerfiles/productpage .",
         "sudo docker build -t g39/details -f dockerfiles/details .",
         "sudo docker build -t g39/ratings -f dockerfiles/ratings .",
-        "sudo docker build -t g39/reviews -f practica_creativa2/bookinfo/src/reviews/reviews-wlpcfg/Dockerfile .",
     ]
 
     for command in docker_build_commands:
@@ -143,6 +158,8 @@ def setup_images():
         if not success:
             print("\n[ERROR]  Algo fue mal! Error: \n" + (error or "Desconocido"))
             return
+
+    
 
 
 ################ PROGRAM ################
