@@ -21,13 +21,13 @@ def run_command(command):
 
 def is_docker_installed():
     """Verifica si Docker está instalado."""
-    _, success = run_command("docker --version")
+    output, error, success  = run_command("docker --version")
     return success
 
 
 def is_kubernetes_installed():
     """Verifica si Kubernetes está instalado."""
-    _, success = run_command("kubectl version --client")
+    output, error, success  = run_command("kubectl version --client")
     return success
 
 
@@ -55,7 +55,7 @@ def setup_docker():
     )
 
     print("\nVerificando la versión de Docker...")
-    version, _ = run_command("docker --version")
+    version, error, success  = run_command("docker --version")
     print(version)
 
 
@@ -84,7 +84,7 @@ def setup_kubernetes():
     run_command("sudo apt-mark hold kubeadm kubelet kubectl")
 
     print("\nVerificando la versión de kubeadm...")
-    version, _ = run_command("kubeadm version")
+    version, error, success  = run_command("kubeadm version")
     print(version)
 
 
