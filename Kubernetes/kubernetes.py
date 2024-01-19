@@ -1,6 +1,6 @@
 import subprocess
 import os
-
+import docker
 
 import subprocess
 
@@ -135,7 +135,7 @@ def setup_images():
         print(f"Error al cambiar de directorio: {e}")
         return
     
-    gradle_image = "sudo docker build -t g39/reviews .",
+    gradle_image = "sudo docker build -t reviews .",
     print(f"\nConstruyendo imagen Docker con el comando: {gradle_image}")
     output, error, success = run_command(gradle_image)
     if not success:
@@ -147,9 +147,9 @@ def setup_images():
 
     # Comandos para construir imágenes Docker
     docker_build_commands = [
-        "sudo docker build -t g39/productpage -f dockerfiles/productpage .",
-        "sudo docker build -t g39/details -f dockerfiles/details .",
-        "sudo docker build -t g39/ratings -f dockerfiles/ratings .",
+        "sudo docker build -t productpage -f dockerfiles/productpage .",
+        "sudo docker build -t details -f dockerfiles/details .",
+        "sudo docker build -t ratings -f dockerfiles/ratings .",
     ]
 
     for command in docker_build_commands:
@@ -171,10 +171,10 @@ else:
     print("\nDocker ya está instalado.")
 
 if not is_kubernetes_installed():
-    print("\nKubernetes no está instalado. Ejecutando el proceso de configuración...")
+    print("\nKubernetes no está instalado. Ejecutando el proceso de configuración...\n")
     setup_kubernetes()
 else:
-    print("\nKubernetes ya está instalado. No es necesario volver a configurarlo.")
+    print("\nKubernetes ya está instalado. No es necesario volver a configurarlo.\n")
 
 
 
@@ -193,8 +193,29 @@ except subprocess.CalledProcessError as e:
 
 setup_images()
 
+# Configura el cliente de Docker
+client = docker.from_env()
 
-# curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg
+# Obtiene la lista de todas las imágenes
+images = client.images.list()
+
+# Itera sobre las imágenes y muestra el nombre y el Image ID
+for image in images:
+    image_info = image.attrs
+    image_name = image_info['RepoTags'][0] if image_info['RepoTags'] else ''
+    image_id = image_info['Id'].split(':')[-1]
+    print(f"Nombre de la imagen: {image_name}")
+    print(f"Image ID (solo parte derecha): {image_id}")
+
+#gcloud container clusters create creativa2 \
+    # --num-nodes=5 \
+    # --no-enable-autoscaling \
+    # --zone europe-west1-d \
+    # --project clear-column-411518
+
+
+# gcloud container clusters get-credentials creativa2 --zone europe-west1-d --project clear-column-411518
+
 
 #  sudo apt-get update
 
@@ -205,3 +226,6 @@ setup_images()
 # Create cluster
 
 
+# perezarruti_oscar@cloudshell:~/Creativa2/Kubernetes (clear-column-411518)$ docker tag ba266187b55d dockeroscarperez/productpage:latest
+
+# perezarruti_oscar@cloudshell:~/Creativa2/Kubernetes (clear-column-411518)$ docker push dockeroscarperez/creativa2:productpage:latest

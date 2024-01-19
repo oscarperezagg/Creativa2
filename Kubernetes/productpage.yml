@@ -11,7 +11,7 @@ metadata:
 spec:
   type: LoadBalancer 
   ports:
-  - port: 9080
+  - port: 80
     targetPort: 9080  
     protocol: TCP
     name: http
@@ -21,7 +21,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: productpage-v1
+  name: productpage
   labels:
     app: productpage
     version: v1
@@ -38,8 +38,8 @@ spec:
         version: v1
     spec:
       containers:
-      - name: productpage
-        image: g39/productpage  
+      - name: productpage-container
+        image: dockeroscarperez/productpage
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 9080
