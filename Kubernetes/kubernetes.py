@@ -196,7 +196,7 @@ def upload_images():
         push_command = f"docker push {image_name}"
         subprocess.run(push_command, shell=True, check=True)
         
-def apply_kubctl():
+def apply_kubectl():
     # Obtén el directorio del archivo en ejecución
     current_directory = os.path.dirname(os.path.abspath(__file__))
 
@@ -209,20 +209,20 @@ def apply_kubctl():
             yaml_files.append(filename)
             
     for file in yaml_files:
-        print(f"\nkubctl apply -f {file}")
+        print(f"\nkubectl apply -f {file}")
 
-        subprocess.run(["kubctl", "apply", "-f",filename])
+        subprocess.run(["kubectl", "apply", "-f",filename])
    
 
     # Wait for one second
     print("\n Esperando 10 segundos a que todo se despliegue correctamente")
     time.sleep(1)
     print("\n Services:")
-    subprocess.run(["kubctl", "get", "services"])
+    subprocess.run(["kubectl", "get", "services"])
     print("\n Deployments:")
-    subprocess.run(["kubctl", "get", "deployments"])
+    subprocess.run(["kubectl", "get", "deployments"])
     print("\n Pods:")
-    subprocess.run(["kubctl", "get", "pods"])
+    subprocess.run(["kubectl", "get", "pods"])
 
         
 
@@ -268,5 +268,5 @@ else:
 # upload_images()
 
 
-apply_kubctl()
+apply_kubectl()
 
