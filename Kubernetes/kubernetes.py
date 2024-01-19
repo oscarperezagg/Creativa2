@@ -26,43 +26,43 @@ def is_kubernetes_installed():
 
 def setup_docker():
     """ Configura Docker en un sistema basado en Debian. """
-    print("\nAñadiendo la clave GPG oficial de Docker...\n")
+    print("\nAñadiendo la clave GPG oficial de Docker...")
     run_command("curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg")
 
-    print("\nAñadiendo el repositorio de Docker...\n")
+    print("\nAñadiendo el repositorio de Docker...")
     run_command("echo 'deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo \"$VERSION_CODENAME\") stable' | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null")
 
-    print("\nActualizando paquetes...\n")
+    print("\nActualizando paquetes...")
     run_command("sudo apt update")
 
-    print("\nInstalando Docker...\n")
+    print("\nInstalando Docker...")
     run_command("sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y")
 
-    print("\nVerificando la versión de Docker...\n")
+    print("\nVerificando la versión de Docker...")
     version, _ = run_command("docker --version")
     print(version)
 
 def setup_kubernetes():
     """ Configura Kubernetes en un sistema basado en Debian. """
-    print("\nActualizando paquetes...\n")
+    print("\nActualizando paquetes...")
     run_command("sudo apt update")
 
-    print("\nAñadiendo la clave GPG de Kubernetes...\n")
+    print("\nAñadiendo la clave GPG de Kubernetes...")
     run_command("curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes.gpg")
 
-    print("\nAñadiendo el repositorio de Kubernetes...\n")
+    print("\nAñadiendo el repositorio de Kubernetes...")
     run_command("echo 'deb [arch=amd64 signed-by=/etc/apt/keyrings/kubernetes.gpg] http://apt.kubernetes.io/ kubernetes-xenial main' | sudo tee -a /etc/apt/sources.list")
 
-    print("\nActualizando paquetes después de añadir el repositorio de Kubernetes...\n")
+    print("\nActualizando paquetes después de añadir el repositorio de Kubernetes...")
     run_command("sudo apt update")
 
-    print("\nInstalando kubeadm, kubelet y kubectl...\n")
+    print("\nInstalando kubeadm, kubelet y kubectl...")
     run_command("sudo apt install kubeadm kubelet kubectl -y")
 
-    print("\nMarcando paquetes para que no se actualicen automáticamente...\n")
+    print("\nMarcando paquetes para que no se actualicen automáticamente...")
     run_command("sudo apt-mark hold kubeadm kubelet kubectl")
 
-    print("\nVerificando la versión de kubeadm...\n")
+    print("\nVerificando la versión de kubeadm...")
     version, _ = run_command("kubeadm version")
     print(version)
     
@@ -73,24 +73,24 @@ def setup_images():
     original_directory = os.getcwd()
 
     # Clonar el repositorio de GitHub
-    print("\nClonando el repositorio de GitHub...\n")
+    print("\nClonando el repositorio de GitHub...")
     _, success = run_command("git clone https://github.com/CDPS-ETSIT/practica_creativa2.git")
     if not success:
         return
 
     # Cambiar al directorio específico
     try:
-        print("\nCambiando al directorio del proyecto...\n")
+        print("\nCambiando al directorio del proyecto...")
         os.chdir("practica_creativa2/bookinfo/src/reviews")
     except Exception as e:
         print(f"Error al cambiar de directorio: {e}")
         return
 
     # Construir el proyecto con Docker y Gradle
-    print("\nConstruyendo el proyecto con Docker y Gradle...\n")
+    print("\nConstruyendo el proyecto con Docker y Gradle...")
     _, success = run_command("docker run --rm -u root -v \"$(pwd)\":/home/gradle/project -w /home/gradle/project gradle:4.8.1 gradle clean build")
     if not success:
-        print("\n Algo fué mal!")
+        print("\n -> Algo fué mal!\n")
         return
 
     # Volver al directorio original
@@ -105,10 +105,10 @@ def setup_images():
     ]
 
     for command in docker_build_commands:
-        print(f"\nConstruyendo imagen Docker con el comando: {command}\n")
+        print(f"\nConstruyendo imagen Docker con el comando: {command}")
         _, success = run_command(command)
         if not success:
-            print("\n Algo fué mal!")
+            print("\n -> Algo fué mal!\n")
             return
 
 ################ PROGRAM ################
@@ -120,10 +120,10 @@ else:
     print("\nDocker ya está instalado.")
 
 if not is_kubernetes_installed():
-    print("\nKubernetes no está instalado. Ejecutando el proceso de configuración...\n")
+    print("\nKubernetes no está instalado. Ejecutando el proceso de configuración...")
     setup_kubernetes()
 else:
-    print("\nKubernetes ya está instalado. No es necesario volver a configurarlo.\n")
+    print("\nKubernetes ya está instalado. No es necesario volver a configurarlo.")
 
 
 setup_images()
