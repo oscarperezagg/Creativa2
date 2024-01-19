@@ -175,27 +175,22 @@ def upload_images():
         image_name = image_info["RepoTags"][0] if image_info["RepoTags"] else ""
         image_id = image_info["Id"].split(":")[-1]
         image_info_dict[image_name] = image_id
-
+    
+    # Log in to Docker Hub
+    login_command = f"docker login --username {username} --password {password}"
+    subprocess.run(login_command, shell=True, check=True)
     # Imprime el diccionario con la información
     # Itera sobre la lista y ejecuta el comando docker tag para cada imagen
     for new_name, image_id in image_info_dict.items():
         print(f"\nCreando tag para la image: {new_name}")
         subprocess.run(["docker", "tag", image_id, new_name])
-
-    # Log in to Docker Hub
-    login_command = f"docker login --username {username} --password {password}"
-    subprocess.run(login_command, shell=True, check=True)
-
-    # Nombre de la imagen que deseas subir
-
-    for name in image_info_dict:
-        
-        image_name = f"dockeroscarperez/{name}"
+        image_name = f"dockeroscarperez/{new_name}"
         # Push the Docker image to Docker Hub
-        print(f"\Subiendo la imagen: {name}")
+        print(f"\nSubiendo la imagen: {new_name}")
 
-        push_command = f"docker push dockeroscarperez/{name}"
+        push_command = f"docker push dockeroscarperez/{new_name}"
         subprocess.run(push_command, shell=True, check=True)
+
 
 
 ################ PROGRAM ################
