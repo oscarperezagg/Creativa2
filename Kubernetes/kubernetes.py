@@ -209,14 +209,14 @@ def apply_kubectl():
             yaml_files.append(filename)
             
     for file in yaml_files:
-        print(f"\nkubectl apply -f {file}")
+        print(f"\nkubectl apply -f {file}\n")
 
-        subprocess.run(["kubectl", "apply", "-f",filename])
+        subprocess.run(["kubectl", "apply", "-f",file])
    
 
     # Wait for one second
     print("\n Esperando 10 segundos a que todo se despliegue correctamente")
-    time.sleep(1)
+    time.sleep(10)
     print("\n Services:")
     subprocess.run(["kubectl", "get", "services"])
     print("\n Deployments:")
@@ -266,6 +266,23 @@ else:
 # setup_images()
 
 # upload_images()
+
+try:
+    print("\n Eliminando servicios existentes\n")
+    # Eliminar todos los contenedores detenidos
+    subprocess.run("kubectl delete services --all", shell=True, check=True)
+    print("\n Eliminando desployments existentes\n")
+
+    # Eliminar todas las imágenes no utilizadas
+    subprocess.run("kubectl delete deployments --all", shell=True, check=True)
+    print("\n Eliminando pods existentes\n")
+    subprocess.run("kubectl delete pods --all", shell=True, check=True)
+
+    print("La limpieza del cluster se completó correctamente.")
+
+except subprocess.CalledProcessError as e:
+    print(f"Ocurrió un error: {e}")
+
 
 
 apply_kubectl()
