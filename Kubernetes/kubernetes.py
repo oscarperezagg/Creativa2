@@ -100,13 +100,13 @@ def setup_images():
         "rm -rf practica_creativa2"
     )
     if not success:
-        print("\n -> Algo fue mal! Error: \n" + (error or "Desconocido"))
+        print("\n[ERROR]  Algo fue mal! Error: \n" + (error or "Desconocido"))
         return
     output, error, success = run_command(
         "git clone https://github.com/CDPS-ETSIT/practica_creativa2.git"
     )
     if not success:
-        print("\n -> Algo fue mal! Error: \n" + (error or "Desconocido"))
+        print("\n[ERROR]  Algo fue mal! Error: \n" + (error or "Desconocido"))
         return
 
     # Cambiar al directorio específico
@@ -123,7 +123,7 @@ def setup_images():
         'sudo docker run --rm -u root -v "$(pwd)":/home/gradle/project -w /home/gradle/project gradle:4.8.1 gradle clean build'
     )
     if not success:
-        print("\n -> Algo fue mal! Error: \n" + (error or "Desconocido"))
+        print("\n[ERROR]  Algo fue mal! Error: \n" + (error or "Desconocido"))
         return
 
     # Volver al directorio original
@@ -141,7 +141,7 @@ def setup_images():
         print(f"\nConstruyendo imagen Docker con el comando: {command}")
         output, error, success = run_command(command)
         if not success:
-            print("\n -> Algo fue mal! Error: \n" + (error or "Desconocido"))
+            print("\n[ERROR]  Algo fue mal! Error: \n" + (error or "Desconocido"))
             return
 
 
