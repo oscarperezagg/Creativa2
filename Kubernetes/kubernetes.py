@@ -177,4 +177,31 @@ else:
     print("\nKubernetes ya está instalado. No es necesario volver a configurarlo.")
 
 
+
+
+try:
+    # Eliminar todos los contenedores detenidos
+    subprocess.run("docker container prune -f", shell=True, check=True)
+
+    # Eliminar todas las imágenes no utilizadas
+    subprocess.run("docker image prune -a -f", shell=True, check=True)
+
+    print("La limpieza de Docker se completó correctamente.")
+
+except subprocess.CalledProcessError as e:
+    print(f"Ocurrió un error: {e}")
+
 setup_images()
+
+
+# curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg
+
+#  sudo apt-get update
+
+# sudo apt-get install apt-transport-https ca-certificates gnupg curl sudo
+
+# sudo apt-get update && sudo apt-get install google-cloud-cli
+
+# Create cluster
+
+
