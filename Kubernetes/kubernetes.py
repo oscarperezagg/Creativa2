@@ -36,20 +36,20 @@ def is_kubernetes_installed():
 
 def setup_docker():
     """Configura Docker en un sistema basado en Debian."""
-    print("\nAñadiendo la clave GPG oficial de Docker...")
+    print("\n|   Añadiendo la clave GPG oficial de Docker...")
     run_command(
         "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg"
     )
 
-    print("\nAñadiendo el repositorio de Docker...")
+    print("\n|   Añadiendo el repositorio de Docker...")
     run_command(
         "echo 'deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo \"$VERSION_CODENAME\") stable' | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null"
     )
 
-    print("\nActualizando paquetes...")
+    print("\n|   Actualizando paquetes...")
     run_command("sudo apt update")
 
-    print("\nInstalando Docker...")
+    print("\n|   Instalando Docker...")
     run_command(
         "sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y"
     )
@@ -61,26 +61,26 @@ def setup_docker():
 
 def setup_kubernetes():
     """Configura Kubernetes en un sistema basado en Debian."""
-    print("\nActualizando paquetes...")
+    print("\n|   Actualizando paquetes...")
     run_command("sudo apt update")
 
-    print("\nAñadiendo la clave GPG de Kubernetes...")
+    print("\n|   Añadiendo la clave GPG de Kubernetes...")
     run_command(
         "curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes.gpg"
     )
 
-    print("\nAñadiendo el repositorio de Kubernetes...")
+    print("\n|   Añadiendo el repositorio de Kubernetes...")
     run_command(
         "echo 'deb [arch=amd64 signed-by=/etc/apt/keyrings/kubernetes.gpg] http://apt.kubernetes.io/ kubernetes-xenial main' | sudo tee -a /etc/apt/sources.list"
     )
 
-    print("\nActualizando paquetes después de añadir el repositorio de Kubernetes...")
+    print("\n|   Actualizando paquetes después de añadir el repositorio de Kubernetes...")
     run_command("sudo apt update")
 
-    print("\nInstalando kubeadm, kubelet y kubectl...")
+    print("\n|   Instalando kubeadm, kubelet y kubectl...")
     run_command("sudo apt install kubeadm kubelet kubectl -y")
 
-    print("\nMarcando paquetes para que no se actualicen automáticamente...")
+    print("\n|   Marcando paquetes para que no se actualicen automáticamente...")
     run_command("sudo apt-mark hold kubeadm kubelet kubectl")
 
     print("\nVerificando la versión de kubeadm...")
