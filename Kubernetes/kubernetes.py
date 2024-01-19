@@ -1,7 +1,7 @@
 import subprocess
 import os
 import docker
-
+from ..secret import *
 import subprocess
 
 
@@ -185,9 +185,7 @@ def upload_images():
     # Configura el cliente de Docker
     client = docker.from_env()
 
-    # Tu nombre de usuario y contraseña de Docker Hub
-    username = "dockeroscarperez"
-    password = "O28466371o#"
+
 
     # Inicia sesión en Docker Hub
     client.login(username=username, password=password)
