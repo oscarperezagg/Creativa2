@@ -23,6 +23,8 @@ warning = """
 |    funcionar correctamente. Asegúrate de mantener este archivo seguro y  |
 |    no compartir las credenciales. Debe crearse en la carpeta confing     |
 |                                                                          |
+| 4. Cuando le salga un cuadro de texto debe pulsar Autorizar              |
+|                                                                          |
 | ¡Por favor, sigue estas indicaciones para evitar problemas en la         |
 | ejecución del programa!                                                  |
 |==========================================================================|
