@@ -178,7 +178,11 @@ def upload_images():
         image_info_dict[image_name] = image_id
 
     # Imprime el diccionario con la información
-    print(image_info_dict)
+    # Itera sobre la lista y ejecuta el comando docker tag para cada imagen
+    for new_name, image_id in image_info_dict:
+        print(f"\Creando tag para la image: {new_name}")
+        subprocess.run(["docker", "tag", image_id, new_name])
+    
 
 ################ PROGRAM ################
 
