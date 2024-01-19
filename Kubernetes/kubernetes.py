@@ -268,14 +268,14 @@ else:
 # upload_images()
 
 try:
-    print("\n Eliminando servicios existentes\n")
+    print("\nEliminando servicios existentes\n")
     # Eliminar todos los contenedores detenidos
     subprocess.run("kubectl delete services --all", shell=True, check=True)
-    print("\n Eliminando desployments existentes\n")
+    print("\n liminando desployments existentes\n")
 
     # Eliminar todas las imágenes no utilizadas
     subprocess.run("kubectl delete deployments --all", shell=True, check=True)
-    print("\n Eliminando pods existentes\n")
+    print("\nEliminando pods existentes\n")
     subprocess.run("kubectl delete pods --all", shell=True, check=True)
 
     print("La limpieza del cluster se completó correctamente.")
