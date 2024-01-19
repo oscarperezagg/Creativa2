@@ -5,6 +5,7 @@ from config import username, password
 import subprocess
 import time
 
+
 def run_command(command):
     """Ejecuta un comando en la terminal y devuelve su salida y un booleano indicando el éxito."""
     try:
@@ -53,8 +54,6 @@ def setup_docker():
     run_command(
         "sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y"
     )
-    
-    
 
     print("\nVerificando la versión de Docker...")
     version, error, success = run_command("docker --version")
@@ -162,7 +161,6 @@ def setup_images():
 
 
 def upload_images():
-    
     """Instala Docker usando pip3."""
     command = "pip3 install docker"
     stdout, stderr, success = run_command(command)
@@ -195,16 +193,16 @@ def upload_images():
     for new_name, image_id in image_info_dict.items():
         image_name = f"dockeroscarperez/{new_name}"
         print(f"\nEjecutando:", "docker", "tag", image_id, image_name)
-        
+
         subprocess.run(["docker", "tag", image_id, image_name])
-        
-       
+
         # Push the Docker image to Docker Hub
         print(f"\ndocker push {image_name}")
 
         push_command = f"docker push {image_name}"
         subprocess.run(push_command, shell=True, check=True)
-        
+
+
 def apply_kubectl():
     # Obtén el directorio del archivo en ejecución
     current_directory = os.path.dirname(os.path.abspath(__file__))
@@ -216,12 +214,11 @@ def apply_kubectl():
     for filename in os.listdir(current_directory):
         if filename.endswith((".yaml", ".yml")):
             yaml_files.append(filename)
-            
+
     for file in yaml_files:
         print(f"\nkubectl apply -f {file}\n")
 
-        subprocess.run(["kubectl", "apply", "-f",file])
-   
+        subprocess.run(["kubectl", "apply", "-f", file])
 
     # Wait for one second
     print("\nEsperando 10 segundos a que todo se despliegue correctamente\n")
@@ -232,12 +229,10 @@ def apply_kubectl():
     subprocess.run(["kubectl", "get", "deployments"])
     print("\nPods:\n")
     subprocess.run(["kubectl", "get", "pods"])
-    print("\nEsperando otros 10 segundos para obtener a dirección publica\n")
-    time.sleep(10)
-    subprocess.run(["kubectl", "get", "services","productpage"])
+    print("\nEsperando otros 20 segundos para obtener a dirección publica\n")
+    time.sleep(20)
+    subprocess.run(["kubectl", "get", "services", "productpage"])
 
-
-    
 
 ################ PROGRAM ################
 
@@ -253,14 +248,32 @@ if not is_kubernetes_installed():
 else:
     print("\nKubernetes ya está instalado. No es necesario volver a configurarlo.")
 
-# gcloud container clusters create creativa2 \
-# --num-nodes=5 \
-# --no-enable-autoscaling \
-# --zone europe-west1-d \
-# --project clear-column-411518
+# Define el comando como una lista de cadenas
+comando = [
+    "gcloud",
+    "container",
+    "clusters",
+    "create",
+    "creativa2",
+    "--num-nodes=5",
+    "--no-enable-autoscaling",
+    "--zone=europe-west1-d",
+    "--project=clear-column-411518",
+]
+
+# Ejecuta el comando
+resultado = subprocess.run(
+    comando,
+    shell=True,
+    check=True,
+)
 
 print("\nAccediendo al cluster que hemos creado: \n")
-subprocess.run("gcloud container clusters get-credentials creativa2 --zone europe-west1-d --project clear-column-411518", shell=True, check=True)
+subprocess.run(
+    "gcloud container clusters get-credentials creativa2 --zone europe-west1-d --project clear-column-411518",
+    shell=True,
+    check=True,
+)
 
 
 try:
@@ -296,6 +309,4 @@ except subprocess.CalledProcessError as e:
     print(f"Ocurrió un error: {e}")
 
 
-
 apply_kubectl()
-
