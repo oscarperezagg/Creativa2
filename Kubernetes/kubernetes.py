@@ -134,7 +134,7 @@ def setup_images():
         "sudo docker build -t g39/productpage -f dockerfiles/productpage .",
         "sudo docker build -t g39/details -f dockerfiles/details .",
         "sudo docker build -t g39/ratings -f dockerfiles/ratings .",
-        "sudo docker build -t g39/reviews -f practica_creativa2/bookinfo/src/reviews/Dockerfile .",
+        "sudo docker build -t g39/reviews -f practica_creativa2/bookinfo/src/reviews/reviews-wlpcfg/Dockerfile .",
     ]
 
     for command in docker_build_commands:
