@@ -1,4 +1,6 @@
 import subprocess
+import os 
+
 
 def run_command(command):
     """ Ejecuta un comando en la terminal y devuelve su salida. """
@@ -8,6 +10,7 @@ def run_command(command):
     except subprocess.CalledProcessError:
         return None, False
 
+################ CHECKS ################
 
 def is_docker_installed():
     """ Verifica si Docker está instalado. """
@@ -19,6 +22,7 @@ def is_kubernetes_installed():
     _, success = run_command("kubectl version --client")
     return success
 
+################ SETUP ################
 
 def setup_docker():
     """ Configura Docker en un sistema basado en Debian. """
@@ -62,7 +66,51 @@ def setup_kubernetes():
     version, _ = run_command("kubeadm version")
     print(version)
     
-    
+def setup_images():
+    """ Configura y construye imágenes Docker para el proyecto. """
+
+    # Guardar el directorio actual
+    original_directory = os.getcwd()
+
+    # Clonar el repositorio de GitHub
+    print("\nClonando el repositorio de GitHub...\n")
+    _, success = run_command("git clone https://github.com/CDPS-ETSIT/practica_creativa2.git")
+    if not success:
+        return
+
+    # Cambiar al directorio específico
+    try:
+        print("\nCambiando al directorio del proyecto...\n")
+        os.chdir("practica_creativa2/bookinfo/src/reviews")
+    except Exception as e:
+        print(f"Error al cambiar de directorio: {e}")
+        return
+
+    # Construir el proyecto con Docker y Gradle
+    print("\nConstruyendo el proyecto con Docker y Gradle...\n")
+    _, success = run_command("docker run --rm -u root -v \"$(pwd)\":/home/gradle/project -w /home/gradle/project gradle:4.8.1 gradle clean build")
+    if not success:
+        return
+
+    # Volver al directorio original
+    os.chdir(original_directory)
+
+    # Comandos para construir imágenes Docker
+    docker_build_commands = [
+        "sudo docker build -t g39/productpage -f dockerfiles/productpage .",
+        "sudo docker build -t g39/details -f dockerfiles/details .",
+        "sudo docker build -t g39/ratings -f dockerfiles/ratings .",
+        "sudo docker build -t g39/reviews -f practica_creativa2/bookinfo/src/reviews/Dockerfile ."
+    ]
+
+    for command in docker_build_commands:
+        print(f"\nConstruyendo imagen Docker con el comando: {command}\n")
+        _, success = run_command(command)
+        if not success:
+            return
+
+################ PROGRAM ################
+
 if not is_docker_installed():
     print("\nDocker no está instalado. Ejecutando el proceso de configuración...")
     setup_docker()
@@ -76,6 +124,17 @@ else:
     print("\nKubernetes ya está instalado. No es necesario volver a configurarlo.\n")
 
 
+setup_images()
+
 # git clone https://github.com/CDPS-ETSIT/practica_creativa2.git
 
-#  sudo docker build -t g39/product-page .
+#  sudo docker build -t g39/product-page -f dockerfiles/productpage .
+
+#  sudo docker build -t g39/details -f dockerfiles/details .
+
+#  sudo docker build -t g39/product-page -f dockerfiles/productpage .
+
+#  sudo docker build -t g39/product-page -f dockerfiles/productpage .
+
+# sudo docker build -t g39/product-page -f practica_creativa2/bookinfo/src/reviews/Dockerfile . 
+
