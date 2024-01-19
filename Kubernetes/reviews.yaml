@@ -36,7 +36,7 @@ spec:
     spec:
       containers:
       - name: reviews
-        image: g39/reviews
+        image: dockeroscarperez/reviews
         imagePullPolicy: IfNotPresent
         env:
         - name: LOG_DIR

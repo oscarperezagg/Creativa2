@@ -36,7 +36,7 @@ spec:
     spec:
       containers:
       - name: details
-        image: g39/productpage
+        image: dockeroscarperez/details
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 9080

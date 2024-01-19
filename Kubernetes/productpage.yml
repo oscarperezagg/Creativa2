@@ -38,7 +38,7 @@ spec:
         version: v1
     spec:
       containers:
-      - name: productpage-container
+      - name: productpage
         image: dockeroscarperez/productpage
         imagePullPolicy: IfNotPresent
         ports:

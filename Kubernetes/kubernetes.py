@@ -3,7 +3,7 @@ import os
 import docker
 from config import username, password
 import subprocess
-
+import time
 
 def run_command(command):
     """Ejecuta un comando en la terminal y devuelve su salida y un booleano indicando el éxito."""
@@ -53,6 +53,8 @@ def setup_docker():
     run_command(
         "sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y"
     )
+    
+    
 
     print("\nVerificando la versión de Docker...")
     version, error, success = run_command("docker --version")
@@ -193,6 +195,36 @@ def upload_images():
 
         push_command = f"docker push {image_name}"
         subprocess.run(push_command, shell=True, check=True)
+        
+def apply_kubctl():
+    # Obtén el directorio del archivo en ejecución
+    current_directory = os.path.dirname(os.path.abspath(__file__))
+
+    # Lista para almacenar los nombres de los archivos YAML y YML
+    yaml_files = []
+
+    # Recorre todos los archivos en el directorio
+    for filename in os.listdir(current_directory):
+        if filename.endswith((".yaml", ".yml")):
+            yaml_files.append(filename)
+            
+    for file in yaml_files:
+        print(f"\nkubctl apply -f {file}")
+
+        subprocess.run(["kubctl", "apply", "-f",filename])
+   
+
+    # Wait for one second
+    print("\n Esperando 10 segundos a que todo se despliegue correctamente")
+    time.sleep(1)
+    print("\n Services:")
+    subprocess.run(["kubctl", "get", "services"])
+    print("\n Deployments:")
+    subprocess.run(["kubctl", "get", "deployments"])
+    print("\n Pods:")
+    subprocess.run(["kubctl", "get", "pods"])
+
+        
 
 
 ################ PROGRAM ################
@@ -209,25 +241,6 @@ if not is_kubernetes_installed():
 else:
     print("\nKubernetes ya está instalado. No es necesario volver a configurarlo.\n")
 
-
-try:
-    # Eliminar todos los contenedores detenidos
-    subprocess.run("docker container prune -f", shell=True, check=True)
-
-    # Eliminar todas las imágenes no utilizadas
-    subprocess.run("docker image prune -a -f", shell=True, check=True)
-
-    print("La limpieza de Docker se completó correctamente.")
-
-except subprocess.CalledProcessError as e:
-    print(f"Ocurrió un error: {e}")
-
-setup_images()
-
-
-upload_images()
-
-
 # gcloud container clusters create creativa2 \
 # --num-nodes=5 \
 # --no-enable-autoscaling \
@@ -238,15 +251,22 @@ upload_images()
 # gcloud container clusters get-credentials creativa2 --zone europe-west1-d --project clear-column-411518
 
 
-#  sudo apt-get update
+# try:
+#     # Eliminar todos los contenedores detenidos
+#     subprocess.run("docker container prune -f", shell=True, check=True)
 
-# sudo apt-get install apt-transport-https ca-certificates gnupg curl sudo
+#     # Eliminar todas las imágenes no utilizadas
+#     subprocess.run("docker image prune -a -f", shell=True, check=True)
 
-# sudo apt-get update && sudo apt-get install google-cloud-cli
+#     print("La limpieza de Docker se completó correctamente.")
 
-# Create cluster
+# except subprocess.CalledProcessError as e:
+#     print(f"Ocurrió un error: {e}")
+
+# setup_images()
+
+# upload_images()
 
 
-# perezarruti_oscar@cloudshell:~/Creativa2/Kubernetes (clear-column-411518)$ docker tag ba266187b55d dockeroscarperez/productpage:latest
+apply_kubctl()
 
-# perezarruti_oscar@cloudshell:~/Creativa2/Kubernetes (clear-column-411518)$ docker push dockeroscarperez/creativa2:productpage:latest
