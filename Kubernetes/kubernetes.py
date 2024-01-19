@@ -182,22 +182,20 @@ def upload_images():
         print(f"\nCreando tag para la image: {new_name}")
         subprocess.run(["docker", "tag", image_id, new_name])
 
-    # Configura el cliente de Docker
-    client = docker.from_env()
-
-
-
-    # Inicia sesión en Docker Hub
-    client.login(username=username, password=password)
+    # Log in to Docker Hub
+    login_command = f"docker login --username {username} --password {password}"
+    subprocess.run(login_command, shell=True, check=True)
 
     # Nombre de la imagen que deseas subir
 
     for name in image_info_dict:
         
         image_name = f"dockeroscarperez/{name}"
-        print(image_name)
-        # Realiza el push de la imagen al registro de contenedores (en este caso, Docker Hub)
-        client.images.push(image_name)
+        # Push the Docker image to Docker Hub
+        print(f"\Subiendo la imagen: {name}")
+
+        push_command = f"docker push dockeroscarperez/{name}"
+        subprocess.run(push_command, shell=True, check=True)
 
 
 ################ PROGRAM ################
