@@ -245,10 +245,10 @@ else:
     print("\nDocker ya está instalado.")
 
 if not is_kubernetes_installed():
-    print("\nKubernetes no está instalado. Ejecutando el proceso de configuración...\n")
+    print("\nKubernetes no está instalado. Ejecutando el proceso de configuración...")
     setup_kubernetes()
 else:
-    print("\nKubernetes ya está instalado. No es necesario volver a configurarlo.\n")
+    print("\nKubernetes ya está instalado. No es necesario volver a configurarlo.")
 
 # gcloud container clusters create creativa2 \
 # --num-nodes=5 \
@@ -267,7 +267,7 @@ try:
     # Eliminar todas las imágenes no utilizadas
     subprocess.run("docker image prune -a -f", shell=True, check=True)
 
-    print("La limpieza de Docker se completó correctamente.")
+    print("\nLa limpieza de Docker se completó correctamente.")
 
 except subprocess.CalledProcessError as e:
     print(f"Ocurrió un error: {e}")
@@ -280,7 +280,7 @@ try:
     print("\nEliminando servicios existentes\n")
     # Eliminar todos los contenedores detenidos
     subprocess.run("kubectl delete services --all", shell=True, check=True)
-    print("\n liminando desployments existentes\n")
+    print("\nEliminando desployments existentes\n")
 
     # Eliminar todas las imágenes no utilizadas
     subprocess.run("kubectl delete deployments --all", shell=True, check=True)
