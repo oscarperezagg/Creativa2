@@ -120,7 +120,7 @@ def setup_images():
     # Construir el proyecto con Docker y Gradle
     print("\nConstruyendo el proyecto con Docker y Gradle...")
     output, error, success = run_command(
-        'docker run --rm -u root -v "$(pwd)":/home/gradle/project -w /home/gradle/project gradle:4.8.1 gradle clean build'
+        'sudo docker run --rm -u root -v "$(pwd)":/home/gradle/project -w /home/gradle/project gradle:4.8.1 gradle clean build'
     )
     if not success:
         print("\n -> Algo fue mal! Error: \n" + (error or "Desconocido"))
