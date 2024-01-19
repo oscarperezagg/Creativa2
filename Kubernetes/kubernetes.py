@@ -210,21 +210,21 @@ else:
     print("\nKubernetes ya está instalado. No es necesario volver a configurarlo.\n")
 
 
-# try:
-#     # Eliminar todos los contenedores detenidos
-#     subprocess.run("docker container prune -f", shell=True, check=True)
+try:
+    # Eliminar todos los contenedores detenidos
+    subprocess.run("docker container prune -f", shell=True, check=True)
 
-#     # Eliminar todas las imágenes no utilizadas
-#     subprocess.run("docker image prune -a -f", shell=True, check=True)
+    # Eliminar todas las imágenes no utilizadas
+    subprocess.run("docker image prune -a -f", shell=True, check=True)
 
-#     print("La limpieza de Docker se completó correctamente.")
+    print("La limpieza de Docker se completó correctamente.")
 
-# except subprocess.CalledProcessError as e:
-#     print(f"Ocurrió un error: {e}")
+except subprocess.CalledProcessError as e:
+    print(f"Ocurrió un error: {e}")
 
-# setup_images()
+setup_images()
 
-# Configura el cliente de Docker
+Configura el cliente de Docker
 
 
 upload_images()
