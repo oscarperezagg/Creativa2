@@ -27,6 +27,7 @@ warning = """
 | ejecución del programa!                                                  |
 |==========================================================================|
 """
+print("\x03")
 
 print(warning)
 from config import username, password
