@@ -1,0 +1,42 @@
+version: "3"
+services:
+  productpage:
+    build:
+      context: .
+      dockerfile: productpage
+    container_name: g39-productpage
+    ports:
+      - "9080:9080"
+
+  details:
+    build:
+      context: .
+      dockerfile: details
+    container_name: g39-details
+    environment:
+      - SERVICE_VERSION=v1
+      - ENABLE_EXTERNAL_BOOK_SERVICE=true
+    ports:
+      - "9081:9080"
+
+  reviews:
+    build:
+      context: ./practica_creativa2/bookinfo/src/reviews/reviews-wlpcfg
+      dockerfile: Dockerfile
+    environment:
+      - SERVICE_VERSION=v1
+      - ENABLE_RATINGS=true
+
+    container_name: g39-reviews
+    ports:
+      - "9082:9080"
+
+  ratings:
+    build:
+      context: .
+      dockerfile: ratings
+    container_name: g39-ratings
+    environment:
+      - SERVICE_VERSION=v1
+    ports:
+      - "9083:9080"

@@ -1,0 +1,34 @@
+# Usar python 3.7.7 slim como imagen base
+FROM python:3.7.7-slim
+
+# Instalar git
+RUN apt-get update && \
+    apt-get install -y git && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Establecer el directorio de trabajo
+WORKDIR /app
+
+# Clonar el repositorio
+RUN git clone https://github.com/CDPS-ETSIT/practica_creativa2.git
+
+# Cambiar al directorio de la aplicación
+WORKDIR /app/practica_creativa2/bookinfo/src/productpage
+
+# Instalar las dependencias
+RUN pip3 install --no-cache-dir -r requirements.txt \
+    && pip3 install --upgrade requests \
+    && pip3 install testresources \
+    && pip3 install --upgrade json2html
+
+# Exponer el puerto 80
+EXPOSE 80
+
+ENV GRUPO_NUMERO=unknown
+
+# Comando para iniciar la aplicación en el puerto 80
+CMD ["python3", "productpage_monolith.py", "9080"]
+
+# sudo docker run --name g39-product-page -p 9080:9080 -e GROUPO_NUMERO=g39 -d g39/product-page
+# sudo docker build -t g39/product-page .

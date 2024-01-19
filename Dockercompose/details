@@ -1,0 +1,16 @@
+# Usar una imagen base de Ruby
+FROM ruby:2.7.1-slim
+
+# Establecer el directorio de trabajo en el contenedor
+WORKDIR /opt/microservices
+
+# Copiar el archivo details.rb desde el repositorio clonado
+COPY ./practica_creativa2/bookinfo/src/details/details.rb .
+
+# Exponer el puerto en el que se ejecutará la aplicación
+EXPOSE 9080
+
+ENV SERVICE_VERSION=v1
+ENV ENABLE_EXTERNAL_BOOK_SERVICE=true
+# Ejecutar la aplicación
+CMD ["ruby", "details.rb", "9080"]
