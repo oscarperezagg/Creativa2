@@ -189,10 +189,10 @@ def upload_images():
         
        
         # Push the Docker image to Docker Hub
-        print(f"\nSubiendo la imagen: {image_name}")
+        print(f"\ndocker push {image_name}")
 
         push_command = f"docker push {image_name}"
-        #subprocess.run(push_command, shell=True, check=True)
+        subprocess.run(push_command, shell=True, check=True)
 
 
 ################ PROGRAM ################
