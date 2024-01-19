@@ -97,7 +97,7 @@ def setup_images():
     # Clonar el repositorio de GitHub
     print("\nClonando el repositorio de GitHub...")
     output, error, success = run_command(
-        "rm -rf practica_creativa2"
+        "sudo rm -rf practica_creativa2"
     )
     if not success:
         print("\n[ERROR]  Algo fue mal! Error: \n" + (error or "Desconocido"))
