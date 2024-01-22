@@ -5,10 +5,10 @@ import os
 def prune_docker():
     try:
         # Eliminar todos los contenedores detenidos
-        subprocess.run("docker container prune -f", shell=True, check=True)
+        subprocess.run("sudo docker container prune -f", shell=True, check=True)
 
         # Eliminar todas las imágenes no utilizadas
-        subprocess.run("docker image prune -a -f", shell=True, check=True)
+        subprocess.run("sudo docker image prune -a -f", shell=True, check=True)
 
         print("La limpieza de Docker se completó correctamente.")
 
@@ -33,18 +33,18 @@ def run_commands():
         os.chdir("practica_creativa2/bookinfo/src/reviews")
 
         # Ejecutar Docker con Gradle para construir el proyecto
-        docker_gradle_command = 'docker run --rm -u root -v "$(pwd)":/home/gradle/project -w /home/gradle/project gradle:4.8.1 gradle clean build'
+        docker_gradle_command = 'sudo docker run --rm -u root -v "$(pwd)":/home/gradle/project -w /home/gradle/project gradle:4.8.1 gradle clean build'
         subprocess.run(docker_gradle_command, shell=True, check=True)
 
         # Cambiar al directorio raíz del proyecto
         os.chdir(original_directory)
 
         # Construir imágenes con Docker Compose
-        docker_compose_build_command = "docker-compose build"
+        docker_compose_build_command = "sudo docker-compose build"
         subprocess.run(docker_compose_build_command, shell=True, check=True)
 
         # Levantar los contenedores con Docker Compose
-        docker_compose_up_command = "docker-compose up"
+        docker_compose_up_command = "sudo docker-compose up"
         subprocess.run(docker_compose_up_command, shell=True, check=True)
 
         print("Todos los comandos se ejecutaron correctamente.")
