@@ -16,14 +16,14 @@ warning = """
 |    'gcloud container clusters' y asegurarte de que el proyecto sea el    |
 |    correcto, en este caso 'clear-column-411518'.                         |
 |                                                                          |
-| 2. Debes contar con una cuenta en Docker Hub.                            |
+| 1. Debes contar con una cuenta en Docker Hub.                            |
 |                                                                          |
-| 3. Crea un archivo secret.py que incluya las variables 'username' y      |
+| 2. Crea un archivo secret.py que incluya las variables 'username' y      |
 |    'password' con las credenciales adecuadas para que el programa pueda  |
 |    funcionar correctamente. Asegúrate de mantener este archivo seguro y  |
 |    no compartir las credenciales. Debe crearse en la carpeta confing     |
 |                                                                          |
-| 4. Cuando le salga un cuadro de texto debe pulsar Autorizar              |
+| 3. Cuando le salga un cuadro de texto debe pulsar Autorizar              |
 |                                                                          |
 | ¡Por favor, sigue estas indicaciones para evitar problemas en la         |
 | ejecución del programa!                                                  |
@@ -220,7 +220,7 @@ def upload_images():
     # Imprime el diccionario con la información
     # Itera sobre la lista y ejecuta el comando docker tag para cada imagen
     for new_name, image_id in image_info_dict.items():
-        image_name = f"dockeroscarperez/{new_name}"
+        image_name = f"{username}/{new_name}"
         print(f"\nEjecutando:", "docker", "tag", image_id, image_name)
 
         subprocess.run(["docker", "tag", image_id, image_name])
