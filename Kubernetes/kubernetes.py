@@ -51,7 +51,7 @@ def run_command(command):
 
 def is_docker_installed():
     """Verifica si Docker está instalado."""
-    output, error, success = run_command("docker --version")
+    output, error, success = run_command("sudo docker --version")
     return success
 
 
@@ -85,7 +85,7 @@ def setup_docker():
     )
 
     print("\nVerificando la versión de Docker...")
-    version, error, success = run_command("docker --version")
+    version, error, success = run_command("sudo docker --version")
     print(version)
 
 
@@ -215,7 +215,7 @@ def upload_images():
         image_info_dict[image_name] = image_id
 
     # Log in to Docker Hub
-    login_command = f"docker login --username {username} --password {password}"
+    login_command = f"sudo docker login --username {username} --password {password}"
     subprocess.run(login_command, shell=True, check=True)
     # Imprime el diccionario con la información
     # Itera sobre la lista y ejecuta el comando docker tag para cada imagen
@@ -301,10 +301,10 @@ subprocess.run(
 
 try:
     # Eliminar todos los contenedores detenidos
-    subprocess.run("docker container prune -f", shell=True, check=True)
+    subprocess.run("sudo docker container prune -f", shell=True, check=True)
 
     # Eliminar todas las imágenes no utilizadas
-    subprocess.run("docker image prune -a -f", shell=True, check=True)
+    subprocess.run("sudo docker image prune -a -f", shell=True, check=True)
 
     print("\nLa limpieza de Docker se completó correctamente.")
 
