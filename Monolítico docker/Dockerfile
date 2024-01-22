@@ -23,7 +23,7 @@ RUN pip3 install --no-cache-dir -r requirements.txt \
     && pip3 install --upgrade json2html
 
 # Exponer el puerto 80
-EXPOSE 80
+EXPOSE 9080
 
 ENV GRUPO_NUMERO=unknown
 
